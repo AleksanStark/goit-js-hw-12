@@ -18,17 +18,15 @@ form.addEventListener('submit', async event => {
   event.preventDefault();
   page = 1;
   loader.style.display = 'flex';
-  loadMoreBtn.style.display = 'none';
+  loadMoreBtn.style.display = 'block';
   searchValue = event.target.elements.search.value;
   listImages.innerHTML = '';
   form.search.value = '';
   setTimeout(async () => {
-    loadMoreBtn.style.display = 'block';
-
     try {
       const images = await fetchPosts(searchValue, page, limit);
       totalPages = Math.ceil(images.totalHits / limit);
-      loadMoreBtn.style.display = 'block';
+
       loader.style.display = 'none';
       images.hits.length = 100;
       if (images.hits.length === 0) {
