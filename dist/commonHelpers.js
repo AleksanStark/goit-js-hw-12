@@ -1,37 +1,37 @@
-import { S as g, a as b, i as w } from '../assets/vendor-5401a4b0.js';
+import { S as b, a as w, i as p } from '../assets/vendor-5401a4b0.js';
 (function () {
-  const e = document.createElement('link').relList;
-  if (e && e.supports && e.supports('modulepreload')) return;
-  for (const t of document.querySelectorAll('link[rel="modulepreload"]')) s(t);
-  new MutationObserver(t => {
-    for (const i of t)
-      if (i.type === 'childList')
-        for (const d of i.addedNodes)
+  const t = document.createElement('link').relList;
+  if (t && t.supports && t.supports('modulepreload')) return;
+  for (const e of document.querySelectorAll('link[rel="modulepreload"]')) s(e);
+  new MutationObserver(e => {
+    for (const r of e)
+      if (r.type === 'childList')
+        for (const d of r.addedNodes)
           d.tagName === 'LINK' && d.rel === 'modulepreload' && s(d);
   }).observe(document, { childList: !0, subtree: !0 });
-  function o(t) {
-    const i = {};
+  function o(e) {
+    const r = {};
     return (
-      t.integrity && (i.integrity = t.integrity),
-      t.referrerPolicy && (i.referrerPolicy = t.referrerPolicy),
-      t.crossOrigin === 'use-credentials'
-        ? (i.credentials = 'include')
-        : t.crossOrigin === 'anonymous'
-        ? (i.credentials = 'omit')
-        : (i.credentials = 'same-origin'),
-      i
+      e.integrity && (r.integrity = e.integrity),
+      e.referrerPolicy && (r.referrerPolicy = e.referrerPolicy),
+      e.crossOrigin === 'use-credentials'
+        ? (r.credentials = 'include')
+        : e.crossOrigin === 'anonymous'
+        ? (r.credentials = 'omit')
+        : (r.credentials = 'same-origin'),
+      r
     );
   }
-  function s(t) {
-    if (t.ep) return;
-    t.ep = !0;
-    const i = o(t);
-    fetch(t.href, i);
+  function s(e) {
+    if (e.ep) return;
+    e.ep = !0;
+    const r = o(e);
+    fetch(e.href, r);
   }
 })();
-const L = new g('.list-link'),
-  y = (r, e) => {
-    const o = r
+const L = new b('.list-link'),
+  f = (i, t) => {
+    const o = i
       .map(
         s => `<li class="list-item">
             <a class="list-link" href="${s.largeImageURL}"><img class="list-img" src="${s.webformatURL}" data-original="${s.largeImageURL}" download></a>
@@ -57,59 +57,60 @@ const L = new g('.list-link'),
           </li>`
       )
       .join('');
-    e.insertAdjacentHTML('beforeend', o), L.refresh();
+    t.insertAdjacentHTML('beforeend', o), L.refresh();
   },
-  f = async (r, e, o) => {
+  h = async (i, t, o) => {
     const s = new URLSearchParams({
       key: '42464755-f7d199d1a91f6070a7f813e04',
       image_type: 'photo',
       orientation: 'horizontal',
-      q: `${r}`,
+      q: `${i}`,
       safesearch: !0,
-      page: e,
+      page: t,
       per_page: o,
     });
-    return (await b.get(`https://pixabay.com/api/?${s}`)).data;
+    return (await w.get(`https://pixabay.com/api/?${s}`)).data;
   },
-  u = document.querySelector('.form'),
+  y = document.querySelector('.form'),
   l = document.querySelector('.list'),
   n = document.querySelector('.loader-container'),
   c = document.querySelector('.load-more-btn');
 c.style.display = 'none';
 let a = 1,
-  h = 1;
-const p = 15;
-let m;
-u.addEventListener('submit', async r => {
-  r.preventDefault(),
+  g = 1;
+const m = 15;
+let u;
+y.addEventListener('submit', async i => {
+  i.preventDefault(),
     (a = 1),
     (n.style.display = 'flex'),
     (c.style.display = 'block'),
-    (m = r.target.elements.search.value),
+    (u = i.target.elements.search.value),
     (l.innerHTML = ''),
-    (u.search.value = ''),
+    (y.search.value = ''),
     setTimeout(async () => {
       try {
-        const e = await f(m, a, p);
+        const t = await h(u, a, m);
         if (
-          ((h = Math.ceil(e.totalHits / p)),
+          ((g = Math.ceil(t.totalHits / m)),
           (n.style.display = 'none'),
-          (e.hits.length = 100),
-          e.hits.length === 0)
+          t.hits.length === 0)
         )
           return (
             (c.style.display = 'none'),
-            w.error({
+            p.error({
               message:
-                'Sorry, there are no images matching your search query. Please try again!',
+                "We're sorry, but you've reached the end of search results.",
               position: 'topRight',
             })
           );
-        y(e.hits, l);
+        f(t.hits, l);
         const o = l.firstElementChild.getBoundingClientRect().height;
-        window.scrollBy({ top: 2 * o, behavior: 'smooth' });
-      } catch (e) {
-        console.error('Error during fetching posts:', e),
+      } catch (t) {
+        p.error({
+          message: `Error during fetching posts: ${t}`,
+          position: 'topRight',
+        }),
           (n.style.display = 'none');
       }
     }, 1e3);
@@ -119,14 +120,17 @@ c.addEventListener('click', () => {
     (n.style.display = 'flex'),
     setTimeout(async () => {
       try {
-        const r = await f(m, a, p);
-        y(r.hits, l),
+        const i = await h(u, a, m);
+        f(i.hits, l),
           (n.style.display = 'none'),
-          a >= h && (c.style.display = 'none');
-        const e = l.firstElementChild.getBoundingClientRect().height;
-        window.scrollBy({ top: 2 * e, behavior: 'smooth' });
-      } catch (r) {
-        console.error('Error during loading more images:', r),
+          a >= g && (c.style.display = 'none');
+        const t = l.firstElementChild.getBoundingClientRect().height;
+        window.scrollBy({ top: 2 * t, behavior: 'smooth' });
+      } catch (i) {
+        p.error({
+          message: `Error during loading more images: ${i}`,
+          position: 'topRight',
+        }),
           (n.style.display = 'none');
       }
     }, 1e3);

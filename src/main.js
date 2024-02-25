@@ -28,12 +28,10 @@ form.addEventListener('submit', async event => {
       totalPages = Math.ceil(images.totalHits / limit);
 
       loader.style.display = 'none';
-      images.hits.length = 100;
       if (images.hits.length === 0) {
         loadMoreBtn.style.display = 'none';
         return iziToast.error({
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
+          message: "We're sorry, but you've reached the end of search results.",
           position: 'topRight',
         });
       }
@@ -45,9 +43,11 @@ form.addEventListener('submit', async event => {
         listImages.firstElementChild.getBoundingClientRect().height;
 
       // Плавне прокручування на дві висоти карточки галереї
-      window.scrollBy({ top: 2 * cardHeight, behavior: 'smooth' });
     } catch (error) {
-      console.error('Error during fetching posts:', error);
+      iziToast.error({
+        message: `Error during fetching posts: ${error}`,
+        position: 'topRight',
+      });
       loader.style.display = 'none';
     }
   }, 1000);
@@ -75,7 +75,10 @@ loadMoreBtn.addEventListener('click', () => {
       // Плавне прокручування на дві висоти карточки галереї
       window.scrollBy({ top: 2 * cardHeight, behavior: 'smooth' });
     } catch (error) {
-      console.error('Error during loading more images:', error);
+      iziToast.error({
+        message: `Error during loading more images: ${error}`,
+        position: 'topRight',
+      });
       loader.style.display = 'none';
     }
   }, 1000);
