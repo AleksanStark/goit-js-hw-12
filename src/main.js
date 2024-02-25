@@ -21,7 +21,6 @@ form.addEventListener('submit', async event => {
   loadMoreBtn.style.display = 'block';
   searchValue = event.target.elements.search.value;
   listImages.innerHTML = '';
-  form.search.value = '';
   setTimeout(async () => {
     try {
       const images = await fetchPosts(searchValue, page, limit);
@@ -51,6 +50,7 @@ form.addEventListener('submit', async event => {
       loader.style.display = 'none';
     }
   }, 1000);
+  event.currentTarget.reset();
 });
 
 loadMoreBtn.addEventListener('click', () => {
